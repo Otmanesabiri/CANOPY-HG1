@@ -1,0 +1,18 @@
+# ---- Canopy GH-1 carrier board (appended by build-image.sh) ----
+arm_64bit=1
+enable_uart=1
+dtparam=i2c_arm=on,i2c_arm_baudrate=100000
+dtparam=spi=on
+dtoverlay=spi0-1cs
+dtoverlay=i2c-rtc,ds3231
+dtoverlay=w1-gpio,gpiopin=27
+dtoverlay=uart3
+dtoverlay=canopy-gh1
+dtparam=watchdog=on
+dtparam=audio=off
+camera_auto_detect=0
+display_auto_detect=0
+# CM4: use the on-module PCB antenna (set ant2 for an external u.FL antenna outside the enclosure)
+dtparam=ant1
+# USB host on the CM4's USB2 port (feeds the on-board hub)
+dtoverlay=dwc2,dr_mode=host

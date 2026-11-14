@@ -1,0 +1,3 @@
+(fp_lib_table
+ (lib (name "canopy")(type "KiCad")(uri "${KIPRJMOD}/../lib/canopy.pretty")(options "")(descr ""))
+)

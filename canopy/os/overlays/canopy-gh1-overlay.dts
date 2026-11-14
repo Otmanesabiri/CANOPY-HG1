@@ -1,0 +1,69 @@
+// Canopy GH-1 carrier board overlay for Raspberry Pi CM4 (BCM2711)
+//  - I2S sound card: MAX98357A amplifier (SD_MODE on GPIO7) + 2x ICS-43434 microphones, using the in-tree
+//    Google voiceHAT machine driver (same codec pair), with the shutdown pin moved from GPIO16 to GPIO7
+//  - UART3 (GPIO4/5) in RS-485 mode with driver-enable on GPIO6
+// Everything else on the board uses stock overlays, see config.txt.
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "brcm,bcm2711";
+
+	fragment@0 {
+		target = <&i2s_clk_producer>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@1 {
+		target = <&gpio>;
+		__overlay__ {
+			canopy_amp_pins: canopy_amp_pins {
+				brcm,pins = <7>;
+				brcm,function = <1>;	/* output */
+				brcm,pull = <1>;	/* pull-down: amplifier muted until the driver enables it */
+			};
+			canopy_rs485_pins: canopy_rs485_pins {
+				brcm,pins = <6>;
+				brcm,function = <1>;
+				brcm,pull = <1>;
+			};
+		};
+	};
+
+	fragment@2 {
+		target-path = "/";
+		__overlay__ {
+			voicehat-codec {
+				#sound-dai-cells = <0>;
+				compatible = "google,voicehat";
+				pinctrl-names = "default";
+				pinctrl-0 = <&canopy_amp_pins>;
+				sdmode-gpios = <&gpio 7 0>;
+				status = "okay";
+			};
+		};
+	};
+
+	fragment@3 {
+		target = <&sound>;
+		__overlay__ {
+			compatible = "googlevoicehat,googlevoicehat-soundcard";
+			i2s-controller = <&i2s_clk_producer>;
+			status = "okay";
+		};
+	};
+
+	fragment@4 {
+		target = <&uart3>;
+		__overlay__ {
+			pinctrl-names = "default";
+			pinctrl-0 = <&uart3_pins &canopy_rs485_pins>;
+			rts-gpios = <&gpio 6 0>;
+			linux,rs485-enabled-at-boot-time;
+			rs485-rts-delay = <0 0>;
+			status = "okay";
+		};
+	};
+};

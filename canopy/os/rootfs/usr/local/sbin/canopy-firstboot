@@ -1,0 +1,21 @@
+#!/bin/sh
+# One-time provisioning: unique hostname, dashboard token, API-key placeholder.
+set -eu
+serial=$(tr -d '\0' < /proc/device-tree/serial-number 2>/dev/null | tail -c 6 || echo 000000)
+host="canopy-${serial}"
+hostnamectl set-hostname "$host" || true
+sed -i "s/127.0.1.1.*/127.0.1.1\t$host/" /etc/hosts || true
+umask 077
+if [ ! -s /etc/canopy/canopy.env ]; then
+  token=$(head -c 18 /dev/urandom | base64 | tr -d '/+=' | head -c 20)
+  cat > /etc/canopy/canopy.env <<EOF
+# Dashboard access token (needed for anything that changes state)
+CANOPY_WEB_TOKEN=$token
+# Anthropic API key for the assistant: https://console.anthropic.com/
+ANTHROPIC_API_KEY=
+EOF
+  chown root:canopy /etc/canopy/canopy.env; chmod 640 /etc/canopy/canopy.env
+  mkdir -p /etc/issue.d
+  printf '\nCanopy dashboard: http://%s.local:8080   access token: %s\n\n' "$host" "$token" > /etc/issue.d/canopy.issue || true
+fi
+touch /etc/canopy/.provisioned

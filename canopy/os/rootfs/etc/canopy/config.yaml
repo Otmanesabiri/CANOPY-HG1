@@ -1,0 +1,14 @@
+# Canopy GH-1 configuration.  Everything not listed here uses the defaults in canopy/config.py.
+site: {name: "My greenhouse", timezone: "America/Chicago"}
+hardware:
+  mode: real              # "sim" runs the built-in greenhouse simulator (no sensors needed)
+  poll_s: 5
+  soil_dry_v: 2.6         # capacitive probe voltage in dry air   (calibrate per probe)
+  soil_wet_v: 1.2         # ... and in water
+  flow_pulses_per_l: 450  # YF-S201-class hall flow meter
+claude:
+  model: claude-sonnet-5-5
+  allow_control: true     # false = the assistant can read but never switch outputs or change setpoints
+voice: {enabled: false}   # needs the [voice] extras: see docs/software.md
+mqtt: {enabled: false}    # Zigbee sensors through Zigbee2MQTT
+lora: {enabled: false, freq_mhz: 915.0}

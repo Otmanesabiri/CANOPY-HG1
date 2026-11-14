@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canopy greenhouse</title>
+<style>
+:root{--glass:#eef3ee;--panel:#fbfdfb;--ink:#17261c;--muted:#5d6f63;--line:#cfdad1;--leaf:#1f6b3a;--water:#2563a8;--heat:#b86b00;--alarm:#b3261e;--on:#1f6b3a;--off:#8a978d}
+@media (prefers-color-scheme:dark){:root{--glass:#101812;--panel:#18231b;--ink:#e6efe8;--muted:#9bb0a2;--line:#2c3b31;--leaf:#6fd08f;--water:#7fb4ee;--heat:#f0b25a;--alarm:#ff8a80;--on:#6fd08f;--off:#5f6f64}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--glass);color:var(--ink);font:16px/1.45 system-ui,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums}
+header{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;align-items:baseline;padding:1rem 1.25rem .25rem}
+h1{font-size:1.35rem;margin:0;font-weight:650;letter-spacing:-.01em}
+#clock{color:var(--muted)}
+main{display:grid;gap:1rem;padding:1rem 1.25rem 2rem;grid-template-columns:repeat(12,1fr);max-width:1280px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:1rem}
+h2{font-size:.95rem;margin:0 0 .6rem;font-weight:600;color:var(--muted)}
+#alerts{grid-column:1/-1;border-color:var(--alarm);color:var(--alarm);display:none;font-weight:600}
+#alerts p{margin:.15rem 0}
+#outputs{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.75rem;background:none;border:0;padding:0}
+.out{background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--off);border-radius:6px;padding:.8rem .9rem}
+.out.on{border-left-color:var(--on)}
+.out b{font-size:1.15rem}.out .st{float:right;font-weight:700;color:var(--off)}.out.on .st{color:var(--on)}
+.out small{display:block;color:var(--muted);min-height:2.6em;margin:.25rem 0 .5rem}
+button,select,input{font:inherit;color:inherit}
+button{background:transparent;border:1px solid var(--line);border-radius:4px;padding:.3rem .65rem;cursor:pointer}
+button:hover{border-color:var(--ink)}button:focus-visible,input:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+button.primary{background:var(--leaf);border-color:var(--leaf);color:var(--panel)}
+#readings{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.25rem 1.25rem}
+.rd{cursor:pointer;padding:.35rem .25rem;border-bottom:3px solid transparent}.rd.sel{border-bottom-color:var(--leaf)}
+.rd .v{font-size:2rem;font-weight:650;letter-spacing:-.02em}.rd .u{color:var(--muted);margin-left:.2rem}.rd .n{color:var(--muted);font-size:.9rem}
+.rd.stale .v{color:var(--alarm)}
+#chartbox{grid-column:span 8}#chat{grid-column:span 4;display:flex;flex-direction:column}
+#setp{grid-column:span 7}#log{grid-column:span 5}
+@media (max-width:900px){#chartbox,#chat,#setp,#log{grid-column:1/-1}}
+svg{width:100%;height:260px;display:block}
+.range button.sel{background:var(--ink);color:var(--panel)}
+#msgs{flex:1;min-height:180px;max-height:320px;overflow:auto;margin-bottom:.5rem}
+.m{margin:.35rem 0;padding:.4rem .6rem;border-radius:4px;white-space:pre-wrap}.m.u{background:var(--glass)}.m.a{border-left:3px solid var(--leaf)}
+#chat form{display:flex;gap:.4rem}#chat input{flex:1;background:var(--glass);border:1px solid var(--line);border-radius:4px;padding:.4rem .5rem}
+#setp form{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.4rem 1rem}
+#setp label{display:flex;justify-content:space-between;gap:.5rem;align-items:center;font-size:.9rem}
+#setp input{width:6.2rem;background:var(--glass);border:1px solid var(--line);border-radius:4px;padding:.2rem .35rem;text-align:right}
+#log ul{list-style:none;margin:0;padding:0;max-height:300px;overflow:auto;font-size:.9rem}#log li{padding:.2rem 0;border-bottom:1px solid var(--line)}
+#log li.alert{color:var(--alarm)}#log time{color:var(--muted);margin-right:.5rem}
+#err{color:var(--alarm);font-size:.9rem;min-height:1.2em}
+</style>
+</head>
+<body>
+<header><h1 id="site">Canopy</h1><span id="clock"></span><span id="water"></span><span id="err" role="status"></span></header>
+<main>
+<section id="alerts" role="alert"></section>
+<section id="outputs" aria-label="Outputs"></section>
+<section id="readings" aria-label="Readings"></section>
+<section id="chartbox"><h2><span id="ctitle"></span> <span class="range" style="float:right"></span></h2><svg id="chart" viewBox="0 0 800 260" preserveAspectRatio="none" role="img" aria-label="history chart"></svg></section>
+<section id="chat"><h2>Ask Canopy</h2><div id="msgs" aria-live="polite"></div><form><input name="q" placeholder="How did last night go?" autocomplete="off" aria-label="Message"><button class="primary">Send</button></form></section>
+<section id="setp"><h2>Setpoints</h2><form></form><p><button class="primary" id="save">Save setpoints</button></p></section>
+<section id="log"><h2>Events</h2><ul></ul></section>
+</main>
+<script>
+const $=s=>document.querySelector(s),NAMES={air_temp:"Air temperature",humidity:"Humidity",soil_moisture:"Soil moisture",light:"Light",co2:"CO₂",soil_temp:"Soil temperature"};
+const OUT={heater:"Heating",vent:"Ventilation",irrigation:"Irrigation",lights:"Grow lights"};
+let sel="air_temp",hours=24,token=localStorage.getItem("canopy_token")||"",spDirty=false;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+async function api(path,method="GET",body){
+  const r=await fetch(path,{method,headers:{"Content-Type":"application/json",...(token?{Authorization:"Bearer "+token}:{})},body:body?JSON.stringify(body):undefined});
+  if(r.status==401){token=prompt("Access token (printed on the first-boot console and in /etc/canopy/canopy.env):")||"";localStorage.setItem("canopy_token",token);throw new Error("Token saved - try again");}
+  if(!r.ok)throw new Error(await r.text());return r.json();}
+function fail(e){$("#err").textContent=e.message;setTimeout(()=>$("#err").textContent="",6000)}
+function render(s){
+  $("#site").textContent=s.site;$("#clock").textContent=s.time.replace("T"," ").slice(0,16)+(s.mode=="sim"?" (simulation)":"");
+  $("#water").textContent="Water today "+s.water_today_l+" L";
+  const al=Object.values(s.alerts);$("#alerts").style.display=al.length?"block":"none";$("#alerts").innerHTML=al.map(a=>"<p>"+esc(a)+"</p>").join("");
+  $("#outputs").innerHTML=Object.entries(s.actuators).map(([k,a])=>`<div class="out ${a.on?"on":""}"><span class="st">${a.on?"On":"Off"}</span><b>${OUT[k]}</b>
+   <small>${esc(a.reason)}${a.override_min_left!=null?" ("+a.override_min_left+" min left)":""}</small>
+   <button data-k="${k}" data-s="on">On 30 min</button> <button data-k="${k}" data-s="off">Off 30 min</button> <button data-k="${k}" data-s="auto">Auto</button></div>`).join("");
+  $("#readings").innerHTML=Object.entries(s.sensors).map(([k,v])=>`<div class="rd ${k==sel?"sel":""} ${v.age_s>120?"stale":""}" data-k="${k}" tabindex="0"><div class="n">${NAMES[k]||esc(k)}</div><span class="v">${v.value}</span><span class="u">${esc(v.unit)}</span></div>`).join("");
+  if(!spDirty){$("#setp form").innerHTML=Object.entries(s.setpoints).map(([k,v])=>`<label>${k.replace(/_/g," ")}<input name="${k}" value="${Array.isArray(v)?v.join("-"):v}"></label>`).join("");}
+}
+async function chart(){
+  $("#ctitle").textContent=(NAMES[sel]||sel)+", last "+(hours<48?hours+" h":hours/24+" days");
+  let d;try{d=await api(`/api/history?sensor=${encodeURIComponent(sel)}&hours=${hours}`)}catch(e){return fail(e)}
+  const p=d.points,svg=$("#chart");if(!p.length){svg.innerHTML='<text x="20" y="40" fill="currentColor">No data yet</text>';return}
+  const t0=p[0].ts,t1=p[p.length-1].ts||t0+1,lo=Math.min(...p.map(a=>a.min)),hi=Math.max(...p.map(a=>a.max)),pad=(hi-lo||1)*.08;
+  const X=t=>40+(t-t0)/(t1-t0||1)*750,Y=v=>240-(v-lo+pad)/(hi-lo+2*pad)*225;
+  const band=p.map(a=>X(a.ts)+","+Y(a.max)).join(" ")+" "+p.slice().reverse().map(a=>X(a.ts)+","+Y(a.min)).join(" ");
+  let g="";for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4;g+=`<line x1="40" x2="790" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="36" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="var(--muted)">${v.toFixed(v>100?0:1)}</text>`}
+  for(let i=0;i<=4;i++){const t=t0+(t1-t0)*i/4,dt=new Date(t*1000);g+=`<text x="${X(t)}" y="256" text-anchor="middle" font-size="11" fill="var(--muted)">${hours>48?dt.toLocaleDateString([], {month:"short",day:"numeric"}):dt.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}</text>`}
+  svg.innerHTML=g+`<polygon points="${band}" fill="var(--leaf)" opacity=".15"/><polyline points="${p.map(a=>X(a.ts)+","+Y(a.avg)).join(" ")}" fill="none" stroke="var(--leaf)" stroke-width="2" vector-effect="non-scaling-stroke"/>`;
+}
+async function log(){try{const d=await api("/api/events?hours=72");
+  const rows=[...d.events.map(e=>({ts:e.ts,c:e.level,t:e.message})),...d.actuations.map(a=>({ts:a.ts,c:"",t:`${OUT[a.actuator]} ${a.state?"on":"off"} (${a.source}: ${a.reason})`}))].sort((a,b)=>b.ts-a.ts).slice(0,80);
+  $("#log ul").innerHTML=rows.map(r=>`<li class="${r.c}"><time>${new Date(r.ts*1000).toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}</time>${esc(r.t)}</li>`).join("")}catch(e){fail(e)}}
+document.querySelector(".range").innerHTML=[6,24,168,720].map(h=>`<button data-h="${h}" class="${h==hours?"sel":""}">${h<48?h+" h":h/24+" d"}</button>`).join(" ");
+document.addEventListener("click",async e=>{const t=e.target;
+  if(t.dataset.h){hours=+t.dataset.h;document.querySelectorAll(".range button").forEach(b=>b.classList.toggle("sel",b==t));chart()}
+  else if(t.closest(".rd")){sel=t.closest(".rd").dataset.k;document.querySelectorAll(".rd").forEach(r=>r.classList.toggle("sel",r.dataset.k==sel));chart()}
+  else if(t.dataset.k&&t.dataset.s){try{await api("/api/actuators/"+t.dataset.k,"POST",{state:t.dataset.s,minutes:30});log()}catch(err){fail(err)}}
+  else if(t.id=="save"){const ch={};new FormData($("#setp form")).forEach((v,k)=>{ch[k]=/^\d+:\d+-\d+:\d+$/.test(v)?v.split("-"):/^-?\d+(\.\d+)?$/.test(v)?+v:v});
+    try{await api("/api/setpoints","PUT",ch);spDirty=false;log()}catch(err){fail(err)}}});
+$("#setp form").addEventListener("input",()=>spDirty=true);
+$("#chat form").addEventListener("submit",async e=>{e.preventDefault();const q=e.target.q.value.trim();if(!q)return;e.target.q.value="";
+  const add=(c,t)=>{const d=document.createElement("div");d.className="m "+c;d.textContent=t;$("#msgs").append(d);$("#msgs").scrollTop=1e6;return d};
+  add("u",q);const w=add("a","…");try{w.textContent=(await api("/api/chat","POST",{message:q})).reply}catch(err){w.textContent="Assistant unavailable: "+err.message}});
+const es=new EventSource("/api/stream");es.onmessage=e=>render(JSON.parse(e.data));es.onerror=()=>fail(new Error("Live connection lost - retrying"));
+chart();log();setInterval(chart,60000);setInterval(log,30000);
+</script>
+</body>
+</html>

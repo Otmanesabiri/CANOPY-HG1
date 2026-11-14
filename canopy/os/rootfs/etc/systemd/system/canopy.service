@@ -1,0 +1,25 @@
+[Unit]
+Description=Canopy greenhouse controller
+After=network.target time-sync.target
+Wants=network.target
+
+[Service]
+Type=notify
+User=canopy
+Group=canopy
+SupplementaryGroups=i2c spi gpio audio dialout
+EnvironmentFile=-/etc/canopy/canopy.env
+ExecStart=/opt/canopy/venv/bin/python -m canopy -c /etc/canopy/config.yaml
+Restart=always
+RestartSec=3
+WatchdogSec=60
+NotifyAccess=main
+StateDirectory=canopy
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/canopy
+
+[Install]
+WantedBy=multi-user.target

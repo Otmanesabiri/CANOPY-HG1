@@ -1,0 +1,78 @@
+Qty,References,Value,Description,Manufacturer,MPN,Footprint
+1,J1,USB-C PD IN,"USB Type-C receptacle, USB2.0, 16-pin",GCT,USB4105-GF-A,USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal
+1,D1,SMAJ22A,TVS 22V 400W,Littelfuse,SMAJ22A,D_SMA
+3,C1 C6 C7,10u/35V,10uF 35V X5R 1206,Murata,GRM31CR6YA106KA12L,C_1206_3216Metric
+1,U1,STUSB4500,Standalone USB PD sink controller,STMicroelectronics,STUSB4500QTR,QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm
+13,R1 R2 R12 R13 R31 R32 R33 R34 R36 R38 R40 R42 R43,1k,Resistor 1% 0603,Yageo,RC0603FR-071KL,R_0603_1608Metric
+7,C2 C3 C4 C9 C32 C36 C49,1u,1uF 50V X5R 0603,Samsung,CL10A105KB8NNNC,C_0603_1608Metric
+1,Q1,SiS443DN,P-MOSFET -40V PowerPAK 1212-8 (PD load switch),Vishay,SIS443DN-T1-GE3,Vishay_PowerPAK_1212-8_Single
+8,R3 R5 R6 R9 R10 R27 R28 R29,100k,Resistor 1% 0603,Yageo,RC0603FR-07100KL,R_0603_1608Metric
+3,R4 R52 R55,22k,Resistor 1% 0603,Yageo,RC0603FR-0722KL,R_0603_1608Metric
+34,C5 C8 C10 C14 C16 C19 C22 C23 C24 C25 C26 C27 C28 C29 C30 C33 C42 C43 C44 C45 C48 C51 C52 C53 C55 C56 C57 C58 C59 C60 C61 C62 C63 C64,100n,100nF 50V X7R 0603,Murata,GRM188R71H104KA93D,C_0603_1608Metric
+1,D2,BZT52C10,Zener 10V gate clamp,Diodes Inc.,BZT52C10-7-F,D_SOD-123
+1,U2,LMR33640A,"36V 4A synchronous buck, 400kHz",Texas Instruments,LMR33640ADDAR,Texas_HSOP-8-1EP_3.9x4.9mm_P1.27mm_ThermalVias
+1,R7,24.9k,Resistor 1% 0603,Yageo,RC0603FR-0724K9L,R_0603_1608Metric
+1,L1,6.8uH,Shielded power inductor 6.8uH,Bourns,SRP7028A-6R8M,L_Bourns_SRP7028A_7.3x6.6mm
+7,C11 C12 C13 C17 C18 C20 C21,22u,22uF 10V X5R 0805,Murata,GRM21BR61A226ME44L,C_0805_2012Metric
+1,U3,AP62250,18V 2.5A synchronous buck,Diodes Inc.,AP62250WU-7,TSOT-23-6
+19,R8 R15 R16 R17 R18 R19 R20 R21 R22 R23 R30 R35 R37 R39 R41 R45 R47 R48 R49,10k,Resistor 1% 0603,Yageo,RC0603FR-0710KL,R_0603_1608Metric
+1,R11,31.6k,Resistor 1% 0603,Yageo,RC0603FR-0731K6L,R_0603_1608Metric
+9,C15 C31 C37 C39 C41 C47 C50 C54 C65,10u,10uF 10V X5R 0603,Murata,GRM188R61A106KE69D,C_0603_1608Metric
+1,L2,2.2uH,Shielded power inductor 2.2uH,Coilcraft,XAL4020-222MEC,L_Coilcraft_XAL4020-XXX
+2,D3 D6,green,LED green 0603,Lite-On,LTST-C191KGKT,LED_0603_1608Metric
+1,U4,Raspberry Pi CM4,Compute Module 4 (BCM2711) on 2x Hirose DF40C-100DS-0.4V(51),Raspberry Pi,"CM4102000 (2GB, Wi-Fi/BT, Lite) or CM4102032 (32GB eMMC)",Raspberry-Pi-4-Compute-Module
+1,JP1,USB BOOT,Fit jumper to flash eMMC over USB-C (rpiboot),Harwin,M20-9990245,PinHeader_1x02_P2.54mm_Vertical
+1,SW1,RESET,Tact switch,Omron,B3U-1000P,SW_SPST_B3U-1000P
+1,D4,yellow,LED yellow 0603,Lite-On,LTST-C191KSKT,LED_0603_1608Metric
+1,J2,DEBUG UART,3.3V serial console,Harwin,M20-9990345,PinHeader_1x03_P2.54mm_Vertical
+1,J3,EXPANSION,"Expansion header (I2C, 2x PWM, GPIO)",Harwin,M20-9980545,PinHeader_2x05_P2.54mm_Vertical
+1,U5,FSUSB42,"USB2.0 HS 2:1 switch: SEL=0 -> USB-C (rpiboot), SEL=1 -> hub",onsemi,FSUSB42MUX,MSOP-10_3x3mm_P0.5mm
+3,U6 U9 U11,USBLC6-2,USB ESD protection,STMicroelectronics,USBLC6-2SC6,SOT-23-6
+1,U7,USB2514B,USB 2.0 HS 4-port hub (port 4 strapped off),Microchip,USB2514B-I/M2,QFN-36-1EP_6x6mm_P0.5mm_EP3.7x3.7mm
+1,R14,12k,Resistor 1% 0603,Yageo,RC0603FR-0712KL,R_0603_1608Metric
+1,Y1,24MHz,Crystal 24MHz 18pF 3225,Abracon,ABM8-24.000MHZ-B2-T,Crystal_SMD_3225-4Pin_3.2x2.5mm
+2,C34 C35,18p,18pF 50V C0G 0603,Murata,GRM1885C1H180JA01D,C_0603_1608Metric
+2,U8 U10,TPS2065C,"USB port power switch 1A, active-high EN",Texas Instruments,TPS2065CDBVR,SOT-23-5
+2,C38 C40,150u,150uF 6.3V polymer,KEMET,T520B157M006ATE070,CP_EIA-3528-21_Kemet-B
+1,J4,USB-A x2,Dual stacked USB-A,Wurth Elektronik,61400826021,USB_A_Wuerth_61400826021_Horizontal_Stacked
+1,F1,0.75A,PTC 0.75A hold,Littelfuse,1206L075THYR,Fuse_1206_3216Metric
+1,J5,USB-A internal (Zigbee),"Vertical USB-A, internal port for Zigbee/Thread coordinator stick",Molex,105057-0001,USB_A_Molex_105057_Vertical
+1,J6,RJ45 GbE,RJ45 with 1000BASE-T magnetics and LEDs,Pulse Electronics,JK0654219NL,RJ45_Pulse_JK0654219NL_Horizontal
+2,R24 R25,330R,Resistor 1% 0603,Yageo,RC0603FR-07330RL,R_0603_1608Metric
+1,C46,1n/2kV,1nF 2kV X7R 1206,KEMET,C1206C102KGRACTU,C_1206_3216Metric
+1,R26,1M,Resistor 1% 0603,Yageo,RC0603FR-071ML,R_0603_1608Metric
+1,J7,microSD,microSD push-pull socket,Molex,104031-0811,microSD_HC_Molex_104031-0811
+1,U12,TPS22917,SD card power switch (lets CM4 power-cycle the card),Texas Instruments,TPS22917DBVR,SOT-23-6
+1,U13,MAX98357A,I2S 3W class-D mono amplifier,Analog Devices,MAX98357AETE+T,TQFN-16-1EP_3x3mm_P0.5mm_EP1.23x1.23mm
+1,J8,SPEAKER 4-8R,Speaker connector,JST,S2B-PH-K-S(LF)(SN),JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal
+2,MK1 MK2,ICS-43434,"I2S MEMS microphone, bottom port (left channel)",TDK InvenSense,ICS-43434,InvenSense_ICS-43434-6_3.5x2.65mm
+1,U14,RFM95W,"LoRa transceiver module SX1276, 915MHz (868MHz: RFM95W-868S2)",HopeRF,RFM95W-915S2,HOPERF_RFM9XW_SMD
+1,J9,LoRa ANT,U.FL antenna connector,Hirose,U.FL-R-SMT-1(10),U.FL_Hirose_U.FL-R-SMT-1_Vertical
+1,U15,MCP23017,I2C 16-bit I/O expander @0x20; held in reset by CM4 nEXTRST,Microchip,MCP23017-E/SS,SSOP-28_5.3x10.2mm_P0.65mm
+1,U16,ULN2803A,8x Darlington sink driver 50V/500mA with clamp diodes,Texas Instruments,ULN2803ADWR,SOIC-18W_7.5x11.6mm_P1.27mm
+1,J10,OUT1-8 (sink),Screw terminal 8-pos 3.5mm,Phoenix Contact,"PT 1,5/8-3,5-H (1984675)","TerminalBlock_Phoenix_PT-1,5-8-3.5-H_1x08_P3.50mm_Horizontal"
+1,J11,V_FIELD / GND,Screw terminal 4-pos 3.5mm,Phoenix Contact,"PT 1,5/4-3,5-H (1984633)","TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal"
+1,SW2,USER / TALK,Tact switch,Omron,B3U-1000P,SW_SPST_B3U-1000P
+1,D5,red,LED red 0603,Lite-On,LTST-C191KRKT,LED_0603_1608Metric
+1,D7,blue,LED blue 0603,Lite-On,LTST-C191TBKT,LED_0603_1608Metric
+1,U17,ADS1115,16-bit 4-ch I2C ADC @0x48,Texas Instruments,ADS1115IDGSR,TSSOP-10_3x3mm_P0.5mm
+2,R44 R46,20k,Resistor 1% 0603,Yageo,RC0603FR-0720KL,R_0603_1608Metric
+1,J12,AIN0-1 3V3 / AIN2-3 10V,Screw terminal 6-pos 3.5mm,Phoenix Contact,"PT 1,5/6-3,5-H (1984659)","TerminalBlock_Phoenix_PT-1,5-6-3.5-H_1x06_P3.50mm_Horizontal"
+1,U18,THVD1420,3.3V half-duplex RS-485 transceiver,Texas Instruments,THVD1420DR,SOIC-8_3.9x4.9mm_P1.27mm
+1,D8,SM712,RS-485 TVS,Semtech,SM712.TCT,SOT-23
+1,R50,120R,Resistor 1% 0603,Yageo,RC0603FR-07120RL,R_0603_1608Metric
+1,JP2,RS485 TERM,Fit jumper for 120R bus termination,Harwin,M20-9990245,PinHeader_1x02_P2.54mm_Vertical
+1,J13,RS485 A/B/GND,Screw terminal 3-pos 3.5mm,Phoenix Contact,"PT 1,5/3-3,5-H (1984620)","TerminalBlock_Phoenix_PT-1,5-3-3.5-H_1x03_P3.50mm_Horizontal"
+1,U19,DS3231M,I2C RTC +/-5ppm @0x68,Analog Devices,DS3231MZ+TRL,SOIC-8_3.9x4.9mm_P1.27mm
+1,BT1,CR1220,CR1220 coin cell holder,Keystone,3000,BatteryHolder_Keystone_3000_1x12mm
+2,J14 J15,I2C (Qwiic),Qwiic / STEMMA QT I2C sensor port,JST,SM04B-SRSS-TB(LF)(SN),JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal
+1,F2,0.5A,PTC 0.5A hold,Bel Fuse,0ZCJ0050FF2G,Fuse_1206_3216Metric
+3,R51 R54 R57,4.7k,Resistor 1% 0603,Yageo,RC0603FR-074K7L,R_0603_1608Metric
+2,R53 R56,33k,Resistor 1% 0603,Yageo,RC0603FR-0733KL,R_0603_1608Metric
+2,C66 C67,1n,1nF 50V X7R 0603,Murata,GRM188R71H102KA01D,C_0603_1608Metric
+1,R58,100R,Resistor 1% 0603,Yageo,RC0603FR-07100RL,R_0603_1608Metric
+1,J16,5V/FLOW1/FLOW2/1W/3V3,Screw terminal 8-pos 3.5mm,Phoenix Contact,"PT 1,5/8-3,5-H (1984675)","TerminalBlock_Phoenix_PT-1,5-8-3.5-H_1x08_P3.50mm_Horizontal"
+1,J17,DI1-4 (dry contact),Screw terminal 6-pos 3.5mm,Phoenix Contact,"PT 1,5/6-3,5-H (1984659)","TerminalBlock_Phoenix_PT-1,5-6-3.5-H_1x06_P3.50mm_Horizontal"
+2,(U4 sockets),100-pin 0.4mm,CM4 mating connector - part of the U4 footprint,Hirose,DF40C-100DS-0.4V(51),
+4,(U4 standoffs),M2.5 x 1.5 mm,SMT/press-fit spacer for CM4 (3.0 mm stack height uses DF40HC(3.0)),Wurth Elektronik,9774015151R,
+1,(BT1 cell),CR1220,3V lithium coin cell,Panasonic,CR1220,

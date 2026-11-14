@@ -1,0 +1,12 @@
+[Unit]
+Description=Canopy first-boot provisioning
+ConditionPathExists=!/etc/canopy/.provisioned
+Before=canopy.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/canopy-firstboot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
