@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Canopy GH-1 — Autonomous Greenhouse Controller
 
 **Canopy GH-1** is an open-hardware, industrial-grade greenhouse climate and irrigation controller powered by the **Raspberry Pi Compute Module 4 (CM4)**. It pairs a deterministic fail-safe control loop and hardware safety interlocks with an embedded **Claude AI agronomic assistant** accessible via web dashboard, REST API, and local voice interface.
@@ -160,4 +160,3 @@ hand rework in KiCad before fabrication. Build the image with `os/build-image.sh
 
 Try the software: `cd software && pip install -e ".[dev]" && pytest`, then `python -m canopy -c cfg.yaml`
 with `hardware: {mode: sim}` in the YAML.
->>>>>>> 7647b556f35decb69374de362211f98e5229d6a8
